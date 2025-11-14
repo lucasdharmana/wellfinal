@@ -5,9 +5,9 @@
     'use strict';
 
     const characterImages = {
-        jew: 'images/wellwell12347_jew.png',
-        africa: 'images/wellwell12347_africa.png',
-        india: 'images/wellwell12347_india.png'
+        jew: 'wellwell12347_jew (1).png',
+        africa: 'wellwell12347_africa (1).png',
+        india: 'wellwell12347_india (1).png'
     };
 
     const config = {
