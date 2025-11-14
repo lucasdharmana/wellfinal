@@ -59,11 +59,6 @@
                 transition: opacity ${config.fadeInDuration}ms ease-in-out;
             `;
 
-            // Flip characters facing right
-            if (characterType === 'africa' || characterType === 'india') {
-                character.style.transform = 'scaleX(-1)';
-            }
-            
             // Create and add image
             const img = document.createElement('img');
             img.src = imagePath;
