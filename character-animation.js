@@ -28,27 +28,29 @@
         setTimeout(() => {
             const character = document.createElement('div');
             character.className = `character character-${characterType}`;
-            
-            // Find the section divider to position characters
+
+            // Find the section divider and speech bubble
             const divider = document.querySelector('.section-divider');
-            if (!divider) {
-                console.error('Section divider not found');
+            const speechBubble = document.querySelector('.speech-bubble');
+            if (!divider || !speechBubble) {
+                console.error('Section divider or speech bubble not found');
                 return;
             }
 
             const dividerRect = divider.getBoundingClientRect();
+            const bubbleRect = speechBubble.getBoundingClientRect();
             const screenWidth = window.innerWidth;
             const isMobile = screenWidth < 768;
-            
+
             // Calculate size
             const size = isMobile ? config.characterSize * config.mobileScale : config.characterSize;
-            
-            // Calculate final position
-            const xPosition = screenWidth * config.positions[characterType];
-            const finalYPosition = dividerRect.top + window.pageYOffset - (size * 0.7); // Position so they "sit" on the line
 
-            // Start position - higher up, behind the logo
-            const startYPosition = finalYPosition - config.slideDistance;
+            // Calculate final position (above the black line)
+            const xPosition = screenWidth * config.positions[characterType];
+            const finalYPosition = dividerRect.top + window.pageYOffset - (size * 0.7);
+
+            // Start position - at the bottom of the speech bubble, hidden behind it
+            const startYPosition = bubbleRect.bottom + window.pageYOffset - (size * 0.8);
 
             // Set initial styles - starting behind the logo
             character.style.cssText = `
