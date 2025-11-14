@@ -11,9 +11,10 @@
     };
 
     const config = {
-        initialDelay: 1000,        // 1 second initial delay (reduced from 3)
-        sequenceDelay: 500,        // 0.5 seconds between each character (reduced from 2)
-        fadeInDuration: 800,       // 0.8 second fade-in
+        initialDelay: 1000,        // 1 second initial delay
+        sequenceDelay: 600,        // 0.6 seconds between each character
+        slideDownDuration: 1200,   // 1.2 second slide down animation
+        slideDistance: 150,        // Distance to slide from behind logo (in pixels)
         characterSize: 200,        // Default size (will scale on mobile)
         mobileScale: 0.5,          // 50% size on mobile
         positions: {
@@ -42,21 +43,24 @@
             // Calculate size
             const size = isMobile ? config.characterSize * config.mobileScale : config.characterSize;
             
-            // Calculate position
+            // Calculate final position
             const xPosition = screenWidth * config.positions[characterType];
-            const yPosition = dividerRect.top + window.pageYOffset - (size * 0.7); // Position so they "sit" on the line
+            const finalYPosition = dividerRect.top + window.pageYOffset - (size * 0.7); // Position so they "sit" on the line
 
-            // Set initial styles
+            // Start position - higher up, behind the logo
+            const startYPosition = finalYPosition - config.slideDistance;
+
+            // Set initial styles - starting behind the logo
             character.style.cssText = `
                 position: absolute;
                 width: ${size}px;
                 height: ${size}px;
                 left: ${xPosition - (size / 2)}px;
-                top: ${yPosition}px;
+                top: ${startYPosition}px;
                 opacity: 0;
-                z-index: 50;
+                z-index: 5;
                 pointer-events: none;
-                transition: opacity ${config.fadeInDuration}ms ease-in-out;
+                transition: all ${config.slideDownDuration}ms cubic-bezier(0.34, 1.56, 0.64, 1);
             `;
 
             // No flipping - PNGs are already in correct orientation
@@ -71,9 +75,13 @@
             `;
             
             img.onload = () => {
-                // Trigger fade-in after image loads
+                // Trigger slide-down and fade-in after image loads
                 requestAnimationFrame(() => {
-                    character.style.opacity = '1';
+                    requestAnimationFrame(() => {
+                        character.style.top = `${finalYPosition}px`;
+                        character.style.opacity = '1';
+                        character.style.zIndex = '50';
+                    });
                 });
             };
 
