@@ -59,11 +59,7 @@
                 transition: opacity ${config.fadeInDuration}ms ease-in-out;
             `;
 
-            // Flip characters to correct facing directions
-            // Jew should face LEFT, Africa and India should face RIGHT
-            if (characterType === 'africa' || characterType === 'india') {
-                character.style.transform = 'scaleX(-1)';
-            }
+            // No flipping - PNGs are already in correct orientation
 
             // Create and add image
             const img = document.createElement('img');
