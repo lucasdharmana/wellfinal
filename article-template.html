@@ -1,0 +1,180 @@
+<!-- ARTICLE TEMPLATE FOR WELL WELL WELL -->
+<!-- Copy this template for each article and add to the appropriate section -->
+
+<!-- Standard Article Card -->
+<div class="article-card" onclick="playSound()">
+    <div class="article-image">
+        <!-- Option 1: Use emoji placeholder -->
+        📰
+        
+        <!-- Option 2: Use actual image -->
+        <!-- <img src="images/articles/article1.jpg" alt="Article Title"> -->
+    </div>
+    <div class="article-content">
+        <span class="article-category">REGION/CATEGORY</span>
+        <h3 class="article-title">YOUR HILARIOUS HEADLINE HERE</h3>
+        <p class="article-excerpt">Brief satirical description that hooks the reader...</p>
+    </div>
+</div>
+
+<!-- Full Article Page Template (for when users click) -->
+<div class="article-full" style="display: none;">
+    <div class="article-header">
+        <img src="images/articles/article-header.jpg" alt="Article Header">
+        <div class="article-meta">
+            <span class="article-date">November 14, 2025</span>
+            <span class="article-author">WELL WELL WELL Staff</span>
+        </div>
+    </div>
+    
+    <div class="article-body">
+        <h1>YOUR HILARIOUS HEADLINE HERE</h1>
+        
+        <p class="article-lead">
+            Lead paragraph that sets up the satirical premise...
+        </p>
+        
+        <p>
+            Main body of the article with your satirical content...
+        </p>
+        
+        <blockquote>
+            "Fake quote from fake person that adds to the satire"
+            - Definitely Real Person, CEO of Something
+        </blockquote>
+        
+        <p>
+            More satirical content...
+        </p>
+        
+        <div class="article-image-inline">
+            <img src="images/articles/inline-image.jpg" alt="Related Image">
+            <p class="image-caption">Satirical caption for the image</p>
+        </div>
+        
+        <p>
+            Conclusion that drives home the satirical point...
+        </p>
+    </div>
+    
+    <div class="article-footer">
+        <p class="disclaimer">⚠ This article is satire and should not be taken as factual reporting ⚠</p>
+        <div class="share-buttons">
+            <button onclick="shareArticle('twitter')">Share on X</button>
+            <button onclick="shareArticle('telegram')">Share on Telegram</button>
+        </div>
+    </div>
+</div>
+
+<!-- EXAMPLE ARTICLES WITH YOUR STYLE OF HEADLINES -->
+
+<!-- Example 1 -->
+<div class="article-card" onclick="playSound()">
+    <div class="article-image">🏦</div>
+    <div class="article-content">
+        <span class="article-category">Finance</span>
+        <h3 class="article-title">JPMorgan Admits They Just Press Random Buttons Too</h3>
+        <p class="article-excerpt">Senior traders confirm their strategy is "basically the same as retail but with more zeros"</p>
+    </div>
+</div>
+
+<!-- Example 2 -->
+<div class="article-card" onclick="playSound()">
+    <div class="article-image">🇨🇳</div>
+    <div class="article-content">
+        <span class="article-category">Asia</span>
+        <h3 class="article-title">China Bans Crypto Again, Market Pretends to Care</h3>
+        <p class="article-excerpt">This marks the 47th official ban this year, traders yawn collectively</p>
+    </div>
+</div>
+
+<!-- Example 3 -->
+<div class="article-card" onclick="playSound()">
+    <div class="article-image">💻</div>
+    <div class="article-content">
+        <span class="article-category">Technology</span>
+        <h3 class="article-title">Developer Accidentally Creates Working Product, Immediately Rugs It</h3>
+        <p class="article-excerpt">"I panicked when I saw actual utility," admits anonymous founder</p>
+    </div>
+</div>
+
+<!-- Example 4 -->
+<div class="article-card" onclick="playSound()">
+    <div class="article-image">🎭</div>
+    <div class="article-content">
+        <span class="article-category">Culture</span>
+        <h3 class="article-title">NFT Influencer's Girlfriend Turns Out to Be AI, Still More Real Than His Gains</h3>
+        <p class="article-excerpt">ChatGPT confirms relationship lasted longer than most altcoin pumps</p>
+    </div>
+</div>
+
+<!-- PHOTO GALLERY ITEM TEMPLATE -->
+<div class="photo-item">
+    <img src="images/photos/ticker-background-1.jpg" alt="$WELLWELL in the wild">
+    <!-- Add onclick handler if you want lightbox/modal functionality -->
+</div>
+
+<!-- VIDEO TEMPLATE -->
+<div class="featured-video">
+    <!-- For Sora AI or other video embeds -->
+    <iframe src="https://your-video-url.com/embed" frameborder="0" allowfullscreen></iframe>
+    <h3>Video Title</h3>
+    <p>Video description...</p>
+</div>
+
+<!-- INSTRUCTIONS FOR ADDING YOUR 30+ ARTICLES:
+
+1. ORGANIZE YOUR CONTENT:
+   Create folders:
+   /images/
+     /articles/      (article headers and inline images)
+     /photos/        (photos with ticker in background)
+     /profile/       (profile and banner images)
+
+2. BATCH ADD ARTICLES:
+   - Copy the article card template above
+   - Replace placeholder content with your headlines
+   - Group by category (Americas, Europe, Asia, etc.)
+   - Add to the appropriate section in index.html
+
+3. IMAGE OPTIMIZATION:
+   - Compress all images (use TinyPNG or similar)
+   - Article headers: 1200x600px recommended
+   - Inline images: 800x450px recommended
+   - Ticker photos: 600x600px (square) recommended
+   - Profile: 400x400px
+   - Banner: 1920x600px
+
+4. DYNAMIC LOADING (for 30+ articles):
+   Consider implementing pagination or lazy loading:
+   
+   <div id="articles-container"></div>
+   <button onclick="loadMoreArticles()">Load More Articles</button>
+   
+   <script>
+   const articles = [
+       // Your 30+ articles data here
+   ];
+   
+   let currentIndex = 0;
+   const articlesPerLoad = 8;
+   
+   function loadMoreArticles() {
+       const container = document.getElementById('articles-container');
+       const nextArticles = articles.slice(currentIndex, currentIndex + articlesPerLoad);
+       
+       nextArticles.forEach(article => {
+           // Create and append article cards
+       });
+       
+       currentIndex += articlesPerLoad;
+   }
+   </script>
+
+5. SEO CONSIDERATIONS (even for satire):
+   - Add meta descriptions
+   - Use semantic HTML
+   - Add alt text to all images
+   - Consider schema markup for satire
+
+-->
