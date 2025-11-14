@@ -59,6 +59,12 @@
                 transition: opacity ${config.fadeInDuration}ms ease-in-out;
             `;
 
+            // Flip characters to correct facing directions
+            // Jew should face LEFT, Africa and India should face RIGHT
+            if (characterType === 'africa' || characterType === 'india') {
+                character.style.transform = 'scaleX(-1)';
+            }
+
             // Create and add image
             const img = document.createElement('img');
             img.src = imagePath;
