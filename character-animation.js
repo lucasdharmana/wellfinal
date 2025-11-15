@@ -6,20 +6,19 @@
 
     const characterImages = {
         jew: 'wellwell12347_jew (1).png',
-        africa: 'wellwell12347_africa (1).png',
-        india: 'wellwell12347_india (1).png'
+        africa: 'wellwell12347_africa (1).png'
     };
 
     const config = {
-        initialDelay: 1000,        // 1 second initial delay (reduced from 3)
-        sequenceDelay: 500,        // 0.5 seconds between each character (reduced from 2)
-        fadeInDuration: 800,       // 0.8 second fade-in
+        initialDelay: 1000,        // 1 second initial delay
+        sequenceDelay: 800,        // 0.8 seconds between jew and africa
+        dropDuration: 1400,        // 1.4 second drop animation
+        appearDelay: 400,          // Delay before character becomes visible (after starting to drop)
         characterSize: 200,        // Default size (will scale on mobile)
         mobileScale: 0.5,          // 50% size on mobile
         positions: {
-            jew: 0.18,             // 18% from left
-            africa: 0.50,          // 50% (center)
-            india: 0.78            // 78% from left
+            jew: 0.25,             // 25% from left
+            africa: 0.75           // 75% from left
         }
     };
 
@@ -27,37 +26,44 @@
         setTimeout(() => {
             const character = document.createElement('div');
             character.className = `character character-${characterType}`;
-            
-            // Find the section divider to position characters
+
+            // Find the section divider and speech bubble
             const divider = document.querySelector('.section-divider');
-            if (!divider) {
-                console.error('Section divider not found');
+            const speechBubble = document.querySelector('.speech-bubble');
+            if (!divider || !speechBubble) {
+                console.error('Section divider or speech bubble not found');
                 return;
             }
 
             const dividerRect = divider.getBoundingClientRect();
+            const bubbleRect = speechBubble.getBoundingClientRect();
             const screenWidth = window.innerWidth;
             const isMobile = screenWidth < 768;
-            
+
             // Calculate size
             const size = isMobile ? config.characterSize * config.mobileScale : config.characterSize;
-            
-            // Calculate position
-            const xPosition = screenWidth * config.positions[characterType];
-            const yPosition = dividerRect.top + window.pageYOffset - (size * 0.7); // Position so they "sit" on the line
 
-            // Set initial styles
+            // Calculate final position (above the black line)
+            const xPosition = screenWidth * config.positions[characterType];
+            const finalYPosition = dividerRect.top + window.pageYOffset - (size * 0.7);
+
+            // Start position - BEHIND and ABOVE the speech bubble, completely hidden
+            const startYPosition = bubbleRect.top + window.pageYOffset - (size * 1.5);
+
+            // Set initial styles - starting behind and above the logo, invisible
             character.style.cssText = `
                 position: absolute;
                 width: ${size}px;
                 height: ${size}px;
                 left: ${xPosition - (size / 2)}px;
-                top: ${yPosition}px;
+                top: ${startYPosition}px;
                 opacity: 0;
-                z-index: 50;
+                z-index: 5;
                 pointer-events: none;
-                transition: opacity ${config.fadeInDuration}ms ease-in-out;
+                transition: top ${config.dropDuration}ms cubic-bezier(0.4, 0.0, 0.2, 1);
             `;
+
+            // No flipping - PNGs are already in correct orientation
 
             // Create and add image
             const img = document.createElement('img');
@@ -67,12 +73,20 @@
                 height: 100%;
                 object-fit: contain;
             `;
-            
+
             img.onload = () => {
-                // Trigger fade-in after image loads
+                // Start the drop animation
                 requestAnimationFrame(() => {
-                    character.style.opacity = '1';
+                    requestAnimationFrame(() => {
+                        character.style.top = `${finalYPosition}px`;
+                    });
                 });
+
+                // Make character visible after it has cleared the logo
+                setTimeout(() => {
+                    character.style.opacity = '1';
+                    character.style.zIndex = '50';
+                }, config.appearDelay);
             };
 
             img.onerror = () => {
@@ -115,11 +129,10 @@
 
     function startSequence() {
         console.log('Starting character animation sequence');
-        
-        // Create characters with staggered delays
+
+        // Create characters with staggered delays - jew first, then africa
         createCharacter(characterImages.jew, 'jew', config.initialDelay);
         createCharacter(characterImages.africa, 'africa', config.initialDelay + config.sequenceDelay);
-        createCharacter(characterImages.india, 'india', config.initialDelay + (config.sequenceDelay * 2));
     }
 
     function init() {
