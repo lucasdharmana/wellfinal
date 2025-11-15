@@ -6,21 +6,19 @@
 
     const characterImages = {
         jew: 'wellwell12347_jew (1).png',
-        africa: 'wellwell12347_africa (1).png',
-        india: 'wellwell12347_india (1).png'
+        africa: 'wellwell12347_africa (1).png'
     };
 
     const config = {
         initialDelay: 1000,        // 1 second initial delay
-        sequenceDelay: 600,        // 0.6 seconds between each character
-        slideDownDuration: 1200,   // 1.2 second slide down animation
-        slideDistance: 150,        // Distance to slide from behind logo (in pixels)
+        sequenceDelay: 800,        // 0.8 seconds between jew and africa
+        dropDuration: 1400,        // 1.4 second drop animation
+        appearDelay: 400,          // Delay before character becomes visible (after starting to drop)
         characterSize: 200,        // Default size (will scale on mobile)
         mobileScale: 0.5,          // 50% size on mobile
         positions: {
-            jew: 0.18,             // 18% from left
-            africa: 0.50,          // 50% (center)
-            india: 0.78            // 78% from left
+            jew: 0.25,             // 25% from left
+            africa: 0.75           // 75% from left
         }
     };
 
@@ -49,10 +47,10 @@
             const xPosition = screenWidth * config.positions[characterType];
             const finalYPosition = dividerRect.top + window.pageYOffset - (size * 0.7);
 
-            // Start position - at the bottom of the speech bubble, hidden behind it
-            const startYPosition = bubbleRect.bottom + window.pageYOffset - (size * 0.8);
+            // Start position - BEHIND and ABOVE the speech bubble, completely hidden
+            const startYPosition = bubbleRect.top + window.pageYOffset - (size * 1.5);
 
-            // Set initial styles - starting behind the logo
+            // Set initial styles - starting behind and above the logo, invisible
             character.style.cssText = `
                 position: absolute;
                 width: ${size}px;
@@ -62,7 +60,7 @@
                 opacity: 0;
                 z-index: 5;
                 pointer-events: none;
-                transition: all ${config.slideDownDuration}ms cubic-bezier(0.34, 1.56, 0.64, 1);
+                transition: top ${config.dropDuration}ms cubic-bezier(0.4, 0.0, 0.2, 1);
             `;
 
             // No flipping - PNGs are already in correct orientation
@@ -75,16 +73,20 @@
                 height: 100%;
                 object-fit: contain;
             `;
-            
+
             img.onload = () => {
-                // Trigger slide-down and fade-in after image loads
+                // Start the drop animation
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         character.style.top = `${finalYPosition}px`;
-                        character.style.opacity = '1';
-                        character.style.zIndex = '50';
                     });
                 });
+
+                // Make character visible after it has cleared the logo
+                setTimeout(() => {
+                    character.style.opacity = '1';
+                    character.style.zIndex = '50';
+                }, config.appearDelay);
             };
 
             img.onerror = () => {
@@ -127,11 +129,10 @@
 
     function startSequence() {
         console.log('Starting character animation sequence');
-        
-        // Create characters with staggered delays
+
+        // Create characters with staggered delays - jew first, then africa
         createCharacter(characterImages.jew, 'jew', config.initialDelay);
         createCharacter(characterImages.africa, 'africa', config.initialDelay + config.sequenceDelay);
-        createCharacter(characterImages.india, 'india', config.initialDelay + (config.sequenceDelay * 2));
     }
 
     function init() {
